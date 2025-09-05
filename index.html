@@ -1,0 +1,553 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diophantine Approximation Wiki</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Times New Roman', serif;
+            line-height: 1.7;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header .author {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+            margin: 40px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+        
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .sidebar h3 {
+            color: #2a5298;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+        }
+        
+        .sidebar li {
+            margin-bottom: 12px;
+        }
+        
+        .sidebar a {
+            color: #495057;
+            text-decoration: none;
+            padding: 8px 0;
+            display: block;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .sidebar a:hover {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding-left: 15px;
+            color: #2a5298;
+            transform: translateX(5px);
+        }
+        
+        .article-content {
+            background: white;
+            border-radius: 15px;
+            padding: 50px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            border: 1px solid #e9ecef;
+            min-height: 80vh;
+        }
+        
+        .article-title {
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 30px;
+            color: #1e3c72;
+            text-align: center;
+            line-height: 1.3;
+        }
+        
+        .article-content h2 {
+            font-size: 2rem;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #2a5298;
+            border-left: 4px solid #2a5298;
+            padding-left: 15px;
+        }
+        
+        .article-content h3 {
+            font-size: 1.6rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #495057;
+        }
+        
+        .article-content p {
+            margin-bottom: 18px;
+            text-align: justify;
+            font-size: 1.1rem;
+        }
+        
+        .theorem, .definition, .lemma, .proposition, .corollary {
+            background: linear-gradient(135deg, #f8f9ff, #f0f4ff);
+            border: 1px solid #d1ecf1;
+            border-left: 5px solid #2a5298;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(42, 82, 152, 0.1);
+        }
+        
+        .theorem-header, .definition-header, .lemma-header, .proposition-header, .corollary-header {
+            font-weight: bold;
+            color: #2a5298;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .proof {
+            background: #fafafa;
+            border-left: 4px solid #6c757d;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-style: italic;
+        }
+        
+        .proof-header {
+            font-weight: bold;
+            color: #6c757d;
+            margin-bottom: 10px;
+            font-style: normal;
+        }
+        
+        .math-block {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .remark {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border: 1px solid #ffeeba;
+            border-left: 5px solid #856404;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-style: italic;
+        }
+        
+        .remark-header {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 10px;
+            font-style: normal;
+        }
+        
+        .edit-button {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+        
+        .edit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+        }
+        
+        .author-info {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border: 1px solid #2196f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .author-info strong {
+            color: #1565c0;
+        }
+        
+        .toc {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px 0;
+            margin: 20px 0;
+        }
+        
+        .toc-title {
+            font-weight: bold;
+            padding: 0 15px 10px;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 10px;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .toc li {
+            padding: 5px 15px;
+        }
+        
+        .toc a {
+            color: #495057;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        
+        .toc a:hover {
+            color: #2a5298;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .sidebar {
+                position: static;
+                order: 2;
+            }
+            
+            .article-content {
+                padding: 30px 20px;
+                order: 1;
+            }
+            
+            .article-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>Diophantine Approximation</h1>
+            <p class="author">Wayne Junn Voo • Under supervision of Arshay Sheth • June 2025</p>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <nav class="sidebar">
+            <h3>Contents</h3>
+            <ul>
+                <li><a href="#" onclick="loadSection('introduction')">Introduction</a></li>
+                <li><a href="#" onclick="loadSection('farey')">Farey Sequences</a></li>
+                <li><a href="#" onclick="loadSection('properties')">Properties of Farey Sequences</a></li>
+                <li><a href="#" onclick="loadSection('ford')">Ford Circles</a></li>
+            </ul>
+            
+            <h3>Theorems & Results</h3>
+            <ul>
+                <li><a href="#" onclick="scrollTo('defn-farey')">Farey Sequence Definition</a></li>
+                <li><a href="#" onclick="scrollTo('thm-interval')">Interval Characterization</a></li>
+                <li><a href="#" onclick="scrollTo('thm-equal')">Determinant Property</a></li>
+                <li><a href="#" onclick="scrollTo('thm-mediant')">Mediant Property</a></li>
+                <li><a href="#" onclick="scrollTo('thm-ford')">Ford Circle Tangency</a></li>
+            </ul>
+        </nav>
+        
+        <article class="article-content">
+            <button class="edit-button" onclick="alert('Editing functionality coming soon!')">Edit Article</button>
+            
+            <div id="article-display">
+                <h1 class="article-title">Diophantine Approximation and Irrationality of Zeta Values</h1>
+                
+                <div class="author-info">
+                    <strong>About this work:</strong> This article provides a comprehensive introduction to Diophantine approximation, closely following Edward B. Burger's "Exploring the Number Jungle" with references to Hardy and Wright's classic text. The proofs presented here are original work done under supervision.
+                </div>
+                
+                <div class="toc">
+                    <div class="toc-title">Table of Contents</div>
+                    <ul>
+                        <li><a href="#introduction">1. Introduction</a></li>
+                        <li><a href="#farey">2. Farey Sequences</a></li>
+                        <li><a href="#properties">2.1 Properties of the Farey Sequences</a></li>
+                        <li><a href="#ford">2.2 Ford Circles</a></li>
+                    </ul>
+                </div>
+                
+                <section id="introduction">
+                    <h2>1. Introduction</h2>
+                    
+                    <p>In this article, we aim to provide the reader with a taste of Diophantine approximation, closely following the book <em>Exploring the Number Jungle</em> by Edward B. Burger, and some occasional references to the classical book <em>An Introduction to the Theory of Numbers</em> by Hardy and Wright.</p>
+                    
+                    <div class="remark">
+                        <div class="remark-header">Note:</div>
+                        Since the book is more of an exercise book, most of the proofs, unless stated otherwise, have been done by the author along with help from the supervisor. Hence, the proofs may not be the most elegant, and all errors are most certainly the author's.
+                    </div>
+                    
+                    <p>Firstly, what is Diophantine Approximation, and why do we even bother with it?</p>
+                    
+                    <p>Diophantine approximation is the study of how well real numbers can be approximated by rational numbers. This field connects number theory, analysis, and geometry, providing deep insights into the distribution of rational points and the structure of real numbers.</p>
+                </section>
+                
+                <section id="farey">
+                    <h2>2. Farey Sequences</h2>
+                    
+                    <section id="properties">
+                        <h3>2.1 Properties of the Farey Sequences</h3>
+                        
+                        <p>Here, we uncover the arithmetic structure of the Farey Sequences. Most of the observations here were made by J. Farey in 1816. However, he gave no proof. Cauchy, however, immediately provided the proofs after seeing Farey's statement.</p>
+                        
+                        <div class="definition" id="defn-farey">
+                            <div class="definition-header">Definition 2.1 (Farey Sequence)</div>
+                            A <em>Farey Sequence of order N</em> is the ordered list of all reduced fractions between 0 and 1 having denominators not exceeding <em>N</em>. We denote this sequence by \(\mathfrak{F}_N\).
+                        </div>
+                        
+                        <p>So for example:</p>
+                        
+                        <div class="math-block">
+                            \begin{align}
+                            \mathfrak{F}_1 &= \left\{ \frac{0}{1},\frac{1}{1} \right\} \\
+                            \mathfrak{F}_2 &= \left\{ \frac{0}{1},\frac{1}{2},\frac{1}{1} \right\} \\
+                            \mathfrak{F}_3 &= \left\{ \frac{0}{1},\frac{1}{3},\frac{1}{2},\frac{2}{3},\frac{1}{1} \right\}
+                            \end{align}
+                        </div>
+                        
+                        <p>We take a slight detour, first considering the size of \(\mathfrak{F}_N\), before considering its arithmetical structure.</p>
+                        
+                        <p>Let \(\#(\mathfrak{F}_N)\) denote the number of elements in \(\mathfrak{F}_N\). For example, \(\#(\mathfrak{F}_1)=2, \#(\mathfrak{F}_2)=3, \#(\mathfrak{F}_3)=5, \#(\mathfrak{F}_4)=7\) and so on. Looking at the first few values for \(\#(\mathfrak{F}_N),\) one might conjecture that \(\#(\mathfrak{F}_N)\) is always prime. But this is in fact not true.</p>
+                        
+                        <div class="lemma">
+                            <div class="lemma-header">Lemma 2.1</div>
+                            For a positive integer \(N \geq 2,\) the number of elements in \(\mathfrak{F}_N\) having denominator \(N\) is equal to \(\varphi(N),\) where \(\varphi(N)\) is the Euler totient function.
+                        </div>
+                        
+                        <div class="proof">
+                            <div class="proof-header">Proof:</div>
+                            By Definition 2.1, the elements with the denominator \(N\) are precisely the fractions that have numerators which are coprime to \(N,\) and the number of them is given by \(\varphi(N).\) □
+                        </div>
+                        
+                        <div class="proposition">
+                            <div class="proposition-header">Proposition 2.1</div>
+                            For any \(N\geq2,\)
+                            \[
+                            \#(\mathfrak{F}_N)=1+\sum_{m=1}^{N}{\varphi(m)}
+                            \]
+                        </div>
+                        
+                        <div class="proof">
+                            <div class="proof-header">Proof:</div>
+                            The statement is true for \(N=1.\) Assuming that it is true for \(N=n,\) the number of elements that are in \(\mathfrak{F}_{n+1}\) is the sum of the number of elements in \(\mathfrak{F}_n\) and the new elements with numerator coprime to \(n+1\) and denominator \(n+1,\) of which there are \(\varphi(n+1)\) of them. □
+                        </div>
+                        
+                        <p>Using this formula, we check that \(\#(\mathfrak{F}_{10})=33,\) which disproves our conjecture.</p>
+                        
+                        <div class="remark">
+                            <div class="remark-header">Remark:</div>
+                            While there does not exist a simple, closed formula for the formula in the previous proposition, the simple function \(f(N)=\frac{3}{\pi^2}N^2\) approximates the formula surprisingly well for sufficiently large \(N.\) For example, \(\#(\mathfrak{F}_{10})=33\) while \(\frac{300}{\pi^2} \approx 30.4\). The reader might recognise this particular function to be the average order of the Euler totient function.
+                        </div>
+                        
+                        <p>We now go back to uncovering the underlying arithmetical structure of the Farey Sequences. From here onwards, we shall assume that all rationals discussed are positive, along with the natural numbers \(p,q,r,s, a,b,x,y\).</p>
+                        
+                        <div class="lemma">
+                            <div class="lemma-header">Lemma 2.2</div>
+                            Let \(\frac{p}{q}<\frac{r}{s}\) be two rational numbers satisfying \(ps-rq=-1.\) Then for all positive integers \(\lambda \text{ and } \mu,\) we have
+                            \[
+                            \frac{p}{q}\leq\frac{\lambda p +\mu r}{\lambda q + \mu s} \leq \frac{r}{s}
+                            \]
+                        </div>
+                        
+                        <div class="proof">
+                            <div class="proof-header">Proof:</div>
+                            We have that the statement is equivalent to:
+                            \begin{align}
+                            &\frac{p}{q}\leq\frac{\lambda p +\mu r}{\lambda q + \mu s} \leq \frac{r}{s} \\
+                            \iff \quad &\frac{p}{q}-\frac{r}{s}\leq\frac{\lambda p +\mu r}{\lambda q + \mu s} -\frac{r}{s}\leq 0 \\
+                            \iff \quad &\frac{ps-rq}{qs} \leq \frac{\lambda ps + \mu rs -\lambda rq -\mu rs}{\lambda qs +\mu s^2} \leq 0 \\
+                            \iff \quad &\frac{-1}{qs} \leq \frac{-\lambda}{\lambda qs +\mu s^2} \leq 0 \\
+                            \iff \quad &\frac{-1}{qs} \leq \frac{-1}{qs+\frac{\mu}{\lambda}s^2} \leq 0
+                            \end{align}
+                            which is true, since all \(\lambda, \mu, q,s\) are positive. □
+                        </div>
+                        
+                        <p>It what follows, it may be useful to note that the hypothesis in the previous Lemma could be written as:</p>
+                        
+                        <div class="math-block">
+                            \[ \det
+                            \begin{pmatrix}
+                            p & r \\
+                            q & s
+                            \end{pmatrix}=-1 \]
+                        </div>
+                        
+                        <div class="theorem" id="thm-interval">
+                            <div class="theorem-header">Theorem 2.1 (Interval Characterization)</div>
+                            Let \(\frac{p}{q}<\frac{r}{s}\) be two rational numbers satisfying \(ps-rq=-1.\) Then a rational number \(\frac{a}{b}\) is an element of the interval \(\lbrack\frac{p}{q},\frac{r}{s}\rbrack\) if and only if \(a=\lambda p + \mu r \quad \text{ and } \quad b=\lambda q + \mu s \) for some non-negative integers \(\lambda\) and \(\mu.\)
+                        </div>
+                        
+                        <div class="theorem" id="thm-equal">
+                            <div class="theorem-header">Theorem 2.2 (Determinant Property)</div>
+                            Let \(\frac{p}{q}<\frac{r}{s}\) be any two consecutive fractions in \(\mathfrak{F}_n.\) Then
+                            \[\det
+                            \begin{pmatrix}
+                                p & r\\
+                                q & s
+                            \end{pmatrix} =-1\]
+                        </div>
+                        
+                        <div class="theorem" id="thm-mediant">
+                            <div class="theorem-header">Theorem 2.3 (Mediant Property)</div>
+                            The fractions that belong to \(\mathfrak{F}_n\) but not \(\mathfrak{F}_{n-1}\) are mediants of two consecutive elements of \(\mathfrak{F}_n.\)
+                        </div>
+                    </section>
+                    
+                    <section id="ford">
+                        <h3>2.2 Ford Circles</h3>
+                        
+                        <p>We take a slight detour from analysing the elements of the Farey Sequences in an arithmetic sense, and take a more geometrical approach, namely via Ford Circles. They are a different representation of the Farey Sequences and can give some insight to how well we can approximate arbitrary real numbers.</p>
+                        
+                        <div class="definition">
+                            <div class="definition-header">Definition 2.2 (Ford Circle)</div>
+                            For a rational number \(\frac{p}{q}\), we define the circle \(C(\frac{p}{q})\) in the complex plane having centre at \(\frac{p}{q}+\frac{1}{2q^2}i\) and radius \(\frac{1}{2q^2}.\) Such circles are called <em>Ford Circles</em>.
+                        </div>
+                        
+                        <p>We present a sketch of the Ford Circles for the rationals in each set: \(\mathfrak{F}_1, \mathfrak{F}_2, \mathfrak{F}_3, \mathfrak{F}_4, \mathfrak{F}_5\) below:</p>
+                        
+                        <p><em>(Geometric visualization to be added)</em></p>
+                        
+                        <p>We see that the Ford Circles pack together peculiarly; one might make a few observations about them, and we provide proofs of those observations.</p>
+                        
+                        <div class="theorem">
+                            <div class="theorem-header">Theorem 2.4 (Ford Circle Non-intersection)</div>
+                            The intersection of the interiors of any two distinct Ford Circles is empty.
+                        </div>
+                        
+                        <div class="proof">
+                            <div class="proof-header">Proof:</div>
+                            It suffices to show that the distance between any two circles is greater than the sum of their radii. WLOG: we assume that \(\frac{p}{q}<\frac{r}{s}.\) We aim to show that 
+                            \[
+                            \sqrt{(\frac{p}{q}-\frac{r}{s})^2+(\frac{1}{2q^2}-\frac{1}{2s^2})^2} \geq \frac{1}{2q^2}+\frac{1}{2s^2}
+                            \]
+                            Which is equivalent to
+                            \begin{align}
+                                &(\frac{p}{q}-\frac{r}{s})^2+(\frac{1}{2q^2}-\frac{1}{2s^2})^2 \geq (\frac{1}{2q^2}+\frac{1}{2s^2})^2 \\
+                                \iff &(\frac{p}{q}-\frac{r}{s})^2 \geq \frac{1}{s^2q^2} \\
+                                \iff &(ps-rq)^2 \geq 1
+                            \end{align}
+                            and this is true since all \(p,q,r,s\) are non-negative integers. □
+                        </div>
+                        
+                        <div class="theorem" id="thm-ford">
+                            <div class="theorem-header">Theorem 2.5 (Ford Circle Tangency)</div>
+                            Two Ford Circles, \(C(\frac{p}{q}) \text{ and } C(\frac{r}{s}),\) are tangent if and only if \(\frac{p}{q}\) and \(\frac{r}{s}\) are adjacent elements in \(\mathfrak{F}_n\) for some \(N.\)
+                        </div>
+                        
+                        <p>In fact, we can use the Ford Circles to find excellent rational approximations to \(\alpha \in \mathbb{R}.\) One way we can do this is by starting with the complex plane together with all the Ford Circles tangent to the real axis. Then we draw a ray perpendicular to the real axis starting from \(\alpha\) approaching to \(+\infty\). This ray will intersect an infinite sequence of shrinking Ford Circles. The points of tangency of those circles to the x-axis form a sequence of rational numbers approaching \(\alpha,\) all having relatively small height. The upper bound of the error will be \(\frac{1}{2q^2},\) the radius of the Ford Circles.</p>
+                        
+                        <p>With that in mind, we proceed to the main results in Diophantine Approximation.</p>
+                    </section>
+                </section>
+            </div>
+        </article>
+    </main>
+    
+    <script>
+        // MathJax configuration
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]']],
+                processEscapes: true,
+                tags: 'ams',
+                macros: {
+                    det: '\\operatorname{det}',
+                    gcd: '\\operatorname{gcd}',
+                }
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+        
+        function loadSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        function scrollTo(elementId) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        // Initialize MathJax on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            MathJax.typesetPromise([document.body]);
+        });
+    </script>
+</body>
+</html>
